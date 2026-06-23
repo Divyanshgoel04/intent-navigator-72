@@ -158,8 +158,9 @@ function Index() {
   );
 }
 
-function ResultPanel({ result, ticket }: { result: AgentResult; ticket: string }) {
-  const meta = INTENT_META[result.intent];
+function ResultPanel({ result, ticket }: { result: AnalyzeResult; ticket: string }) {
+  const intentKey = (result.intent?.toUpperCase() as Intent) || "GENERAL";
+  const meta = INTENT_META[intentKey] || INTENT_META["GENERAL"];
   const pct = Math.round(result.confidence * 100);
   return (
     <div className="grid gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500 lg:grid-cols-3">
@@ -179,7 +180,7 @@ function ResultPanel({ result, ticket }: { result: AgentResult; ticket: string }
         </div>
         <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-xs text-muted-foreground">
           <span>Latency</span>
-          <span className="font-mono text-foreground">{result.latencyMs} ms</span>
+          <span className="font-mono text-foreground">{result.latencyMs ?? "—"} ms</span>
         </div>
       </Card>
 
@@ -196,7 +197,7 @@ function ResultPanel({ result, ticket }: { result: AgentResult; ticket: string }
             </div>
           )}
           <div>
-            <div className="text-lg font-semibold">{result.escalated ? "Escalated to Human" : "Agent Handled"}</div>
+            <div className="text-lg font-semibold">{result.escalated ? "Escalated to Human" : "AI Agent Handled"}</div>
             <div className="text-xs text-muted-foreground">
               {result.escalated ? "Confidence below threshold." : "Confidence cleared the bar."}
             </div>
