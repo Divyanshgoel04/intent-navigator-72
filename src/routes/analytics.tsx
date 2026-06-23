@@ -95,7 +95,7 @@ function Analytics() {
       )}
 
       {error && (
-        <div className="rounded-xl border border-deńborder/60 bg-card p-6 text-center text-sm text-rose-300">
+        <div className="rounded-xl border border-border/60 bg-card p-6 text-center text-sm text-rose-300">
           {error}
         </div>
       )}
