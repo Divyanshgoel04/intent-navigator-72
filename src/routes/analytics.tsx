@@ -106,7 +106,7 @@ function Analytics() {
             <Metric label="Total tickets" value={total.toLocaleString()} delta="—" up icon={<TicketCheck className="h-4 w-4" />} loading={loading} />
             <Metric label="Auto-resolved" value={resolved.toLocaleString()} delta="—" up icon={<CheckCircle2 className="h-4 w-4" />} loading={loading} />
             <Metric label="Escalated" value={escalated.toLocaleString()} delta="—" up={false} icon={<UserCog className="h-4 w-4" />} loading={loading} />
-            <Metric label="Escalation rate" value={`${(rate * 100).toFixed(1)}%`} delta="—" up={false} icon={<Zap className="h-4 w-4" />} loading={loading} />
+            <Metric label="Escalation rate" value={`${rate.toFixed(1)}%`} delta="—" up={false} icon={<Zap className="h-4 w-4" />} loading={loading} />
           </div>
 
           {total === 0 ? (
