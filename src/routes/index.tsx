@@ -143,7 +143,15 @@ function Index() {
         </Card>
       </section>
 
-      <section ref={resultRef} className="min-h-[60px]">
+      <section ref={resultRef} className="min-h-[60px] space-y-6">
+        {error && (
+          <Card className="surface-card border-red-500/30 p-6">
+            <div className="flex items-center gap-3 text-red-300">
+              <AlertCircle className="h-5 w-5 shrink-0" />
+              <p className="text-sm font-medium">{error}</p>
+            </div>
+          </Card>
+        )}
         {result && <ResultPanel result={result} ticket={text} />}
       </section>
     </div>
