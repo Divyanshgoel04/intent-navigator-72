@@ -29,7 +29,7 @@ const REFUND_STYLES: Record<string, string> = {
   none: "bg-muted text-muted-foreground ring-border",
   requested: "bg-amber-500/15 text-amber-300 ring-amber-400/30",
   approved: "bg-blue-500/15 text-blue-300 ring-blue-400/30",
-  completed: "bg-emerald-500/15 paramètres text-emerald-300 ring-emerald-400/30",
+  completed: "bg-emerald-500/15 text-emerald-300 ring-emerald-400/30",
 };
 
 interface ApiOrder {
