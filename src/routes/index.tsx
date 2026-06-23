@@ -20,10 +20,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+interface AnalyzeResult {
+  intent: string;
+  confidence: number;
+  escalated: boolean;
+  response: string;
+  latencyMs?: number;
+}
+
 function Index() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<AgentResult | null>(null);
+  const [result, setResult] = useState<AnalyzeResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const resultRef = useRef<HTMLDivElement | null>(null);
 
   const samples = [
@@ -37,11 +46,17 @@ function Index() {
     if (!text.trim() || loading) return;
     setLoading(true);
     setResult(null);
-    await new Promise((r) => setTimeout(r, 700 + Math.random() * 500));
-    const r = classify(text);
-    setResult(r);
-    setLoading(false);
-    requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    setError(null);
+    const start = performance.now();
+    try {
+      const data = await analyzeTicket(text);
+      setResult({ ...data, latencyMs: Math.round(performance.now() - start) });
+    } catch {
+      setError("Unable to connect to agent. Please try again.");
+    } finally {
+      setLoading(false);
+      requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    }
   };
 
   return (
