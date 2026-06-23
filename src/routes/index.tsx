@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { ArrowRight, BrainCircuit, CheckCircle2, Loader2, ShieldAlert, UserCog, Zap } from "lucide-react";
+import { ArrowRight, BrainCircuit, CheckCircle2, Loader2, ShieldAlert, UserCog, Zap, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { classify, INTENT_META, type AgentResult } from "@/lib/mock-agent";
+import { analyzeTicket } from "@/lib/api";
+import { INTENT_META, type Intent } from "@/lib/mock-agent";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,10 +20,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+interface AnalyzeResult {
+  intent: string;
+  confidence: number;
+  escalated: boolean;
+  response: string;
+  latencyMs?: number;
+}
+
 function Index() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<AgentResult | null>(null);
+  const [result, setResult] = useState<AnalyzeResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const resultRef = useRef<HTMLDivElement | null>(null);
 
   const samples = [
@@ -36,11 +46,17 @@ function Index() {
     if (!text.trim() || loading) return;
     setLoading(true);
     setResult(null);
-    await new Promise((r) => setTimeout(r, 700 + Math.random() * 500));
-    const r = classify(text);
-    setResult(r);
-    setLoading(false);
-    requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    setError(null);
+    const start = performance.now();
+    try {
+      const data = await analyzeTicket(text);
+      setResult({ ...data, latencyMs: Math.round(performance.now() - start) });
+    } catch {
+      setError("Unable to connect to agent. Please try again.");
+    } finally {
+      setLoading(false);
+      requestAnimationFrame(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    }
   };
 
   return (
@@ -127,15 +143,24 @@ function Index() {
         </Card>
       </section>
 
-      <section ref={resultRef} className="min-h-[60px]">
+      <section ref={resultRef} className="min-h-[60px] space-y-6">
+        {error && (
+          <Card className="surface-card border-red-500/30 p-6">
+            <div className="flex items-center gap-3 text-red-300">
+              <AlertCircle className="h-5 w-5 shrink-0" />
+              <p className="text-sm font-medium">{error}</p>
+            </div>
+          </Card>
+        )}
         {result && <ResultPanel result={result} ticket={text} />}
       </section>
     </div>
   );
 }
 
-function ResultPanel({ result, ticket }: { result: AgentResult; ticket: string }) {
-  const meta = INTENT_META[result.intent];
+function ResultPanel({ result, ticket }: { result: AnalyzeResult; ticket: string }) {
+  const intentKey = (result.intent?.toUpperCase() as Intent) || "GENERAL";
+  const meta = INTENT_META[intentKey] || INTENT_META["GENERAL"];
   const pct = Math.round(result.confidence * 100);
   return (
     <div className="grid gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500 lg:grid-cols-3">
@@ -155,7 +180,7 @@ function ResultPanel({ result, ticket }: { result: AgentResult; ticket: string }
         </div>
         <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-xs text-muted-foreground">
           <span>Latency</span>
-          <span className="font-mono text-foreground">{result.latencyMs} ms</span>
+          <span className="font-mono text-foreground">{result.latencyMs ?? "—"} ms</span>
         </div>
       </Card>
 
@@ -172,7 +197,7 @@ function ResultPanel({ result, ticket }: { result: AgentResult; ticket: string }
             </div>
           )}
           <div>
-            <div className="text-lg font-semibold">{result.escalated ? "Escalated to Human" : "Agent Handled"}</div>
+            <div className="text-lg font-semibold">{result.escalated ? "Escalated to Human" : "AI Agent Handled"}</div>
             <div className="text-xs text-muted-foreground">
               {result.escalated ? "Confidence below threshold." : "Confidence cleared the bar."}
             </div>
