@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useRef, useState } from "react";
-import { ArrowRight, BrainCircuit, CheckCircle2, Loader2, ShieldAlert, UserCog, Zap } from "lucide-react";
+import { ArrowRight, BrainCircuit, CheckCircle2, Loader2, ShieldAlert, UserCog, Zap, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { classify, INTENT_META, type AgentResult } from "@/lib/mock-agent";
+import { analyzeTicket } from "@/lib/api";
+import { INTENT_META, type Intent } from "@/lib/mock-agent";
 
 export const Route = createFileRoute("/")({
   head: () => ({
