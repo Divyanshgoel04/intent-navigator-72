@@ -168,7 +168,7 @@ function ResultPanel({ result, ticket }: { result: AnalyzeResult; ticket: string
         <div className="text-xs uppercase tracking-wide text-muted-foreground">Detected intent</div>
         <div className={`mt-3 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-medium ring-1 ${meta.bg} ${meta.color} ${meta.ring}`}>
           <span className="h-1.5 w-1.5 rounded-full bg-current" />
-          {meta.label.toUpperCase()}
+          {result.intent}
         </div>
         <div className="mt-6">
           <div className="flex items-baseline justify-between">
