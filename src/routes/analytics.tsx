@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { ArrowDownRight, ArrowUpRight, CheckCircle2, Loader2, TicketCheck, UserCog, Zap } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { INTENT_META, RECENT_TICKETS } from "@/lib/mock-agent";
 import { fetchMetrics } from "@/lib/api";
 import { useEffect, useState } from "react";
 
@@ -163,62 +162,8 @@ function Analytics() {
             </div>
           )}
 
-          <Card className="surface-card border-border/60 overflow-hidden">
-            <div className="flex items-center justify-between border-b border-border/60 p-6">
-              <div>
-                <h2 className="text-sm font-medium uppercase tracking-wide text-muted-foreground">Recent tickets</h2>
-                <p className="mt-1 text-xs text-muted-foreground">Live stream of the latest classifications.</p>
-              </div>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground">
-                    <th className="px-6 py-3 font-medium">Time</th>
-                    <th className="px-6 py-3 font-medium">Intent</th>
-                    <th className="px-6 py-3 font-medium">Confidence</th>
-                    <th className="px-6 py-3 font-medium">Action</th>
-                    <th className="px-6 py-3 font-medium">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {RECENT_TICKETS.map((t) => {
-                    const meta = INTENT_META[t.intent];
-                    const pct = Math.round(t.confidence * 100);
-                    return (
-                      <tr key={t.id} className="border-t border-border/40 transition-colors hover:bg-accent/40">
-                        <td className="px-6 py-4 text-muted-foreground">{t.time}</td>
-                        <td className="px-6 py-4">
-                          <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ${meta.bg} ${meta.color} ${meta.ring}`}>
-                            {meta.label.toUpperCase()}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="h-1.5 w-24 overflow-hidden rounded-full bg-background/60">
-                              <div className="h-full rounded-full gradient-primary" style={{ width: `${pct}%` }} />
-                            </div>
-                            <span className="tabular-nums text-xs text-muted-foreground">{pct}%</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 text-muted-foreground">{t.escalated ? "Hand-off" : "Auto-reply"}</td>
-                        <td className="px-6 py-4">
-                          {t.escalated ? (
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-500/15 px-2.5 py-0.5 text-xs font-medium text-amber-300 ring-1 ring-amber-400/30">
-                              Escalated
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-300 ring-1 ring-emerald-400/30">
-                              Resolved
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+          <Card className="surface-card border-border/60 p-12 text-center">
+            <p className="text-muted-foreground">Submit tickets via the Live Demo page to see them appear here</p>
           </Card>
         </>
       )}
