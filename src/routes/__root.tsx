@@ -120,6 +120,9 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen">
+        <div className="bg-orbs" aria-hidden>
+          <div className="bg-orb-3" />
+        </div>
         <AppNav />
         <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <Outlet />
