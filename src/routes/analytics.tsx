@@ -82,7 +82,7 @@ function Analytics() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Analytics</h1>
+        <h1 className="gradient-text text-3xl font-semibold tracking-tight">Analytics</h1>
         <p className="mt-1 text-sm text-muted-foreground">Live agent activity across all channels.</p>
       </div>
 
