@@ -40,7 +40,6 @@ export function AppNav() {
             <span className="pulse-dot" />
             Agent online
           </span>
-          <ThemeToggle />
         </div>
       </div>
     </header>
