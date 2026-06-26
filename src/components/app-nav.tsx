@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import { BarChart3, BrainCircuit, Package, Sparkles, MessagesSquare } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
 
 const links = [
   { to: "/", label: "Live Demo", icon: MessagesSquare },
@@ -41,7 +40,6 @@ export function AppNav() {
             <span className="pulse-dot" />
             Agent online
           </span>
-          <ThemeToggle />
         </div>
       </div>
     </header>
