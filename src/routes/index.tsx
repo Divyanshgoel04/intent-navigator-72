@@ -89,12 +89,14 @@ function Index() {
             </div>
             <span className="text-xs text-muted-foreground">{text.length} chars</span>
           </div>
-          <Textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Type your customer support ticket here..."
-            className="min-h-[180px] resize-none border-border/60 bg-background/40 text-base focus-visible:ring-primary/50"
-          />
+          <div className="input-glow">
+            <Textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Type your customer support ticket here..."
+              className="min-h-[180px] w-full resize-none rounded-[11px] border-0 bg-background/70 text-base focus-visible:ring-0 focus-visible:ring-offset-0"
+            />
+          </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {samples.map((s) => (
               <button
@@ -144,15 +146,22 @@ function Index() {
       </section>
 
       <section ref={resultRef} className="min-h-[60px] space-y-6">
+        {loading && (
+          <div className="grid gap-6 lg:grid-cols-3 animate-in fade-in duration-300">
+            <div className="shimmer h-48 rounded-xl border border-white/10" />
+            <div className="shimmer h-48 rounded-xl border border-white/10" />
+            <div className="shimmer h-48 rounded-xl border border-white/10" />
+          </div>
+        )}
         {error && (
-          <Card className="surface-card border-red-500/30 p-6">
+          <Card className="surface-card border-red-500/30 p-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             <div className="flex items-center gap-3 text-red-300">
               <AlertCircle className="h-5 w-5 shrink-0" />
               <p className="text-sm font-medium">{error}</p>
             </div>
           </Card>
         )}
-        {result && <ResultPanel result={result} ticket={text} />}
+        {result && !loading && <ResultPanel result={result} ticket={text} />}
       </section>
     </div>
   );
@@ -175,7 +184,7 @@ function ResultPanel({ result, ticket }: { result: AnalyzeResult; ticket: string
             <span className="text-xs uppercase tracking-wide text-muted-foreground">Confidence</span>
             <span className="text-2xl font-semibold tabular-nums">{pct}%</span>
           </div>
-          <Progress value={pct} className="mt-2 h-2" />
+          <Progress value={pct} className="progress-glow mt-2 h-2" />
           <p className="mt-2 text-xs text-muted-foreground">Threshold for auto-resolve: 70%</p>
         </div>
         <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-xs text-muted-foreground">

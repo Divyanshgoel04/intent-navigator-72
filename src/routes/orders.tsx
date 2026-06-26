@@ -76,7 +76,7 @@ function Orders() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Order lookup</h1>
+        <h1 className="gradient-text text-3xl font-semibold tracking-tight">Order lookup</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Search any order by its ID. Try ORD00001 to ORD00200.
         </p>

@@ -41,7 +41,7 @@ function HowItWorks() {
             <Sparkles className="h-3.5 w-3.5 text-primary-glow" />
             Inside Helix
           </div>
-          <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">How it works</h1>
+          <h1 className="gradient-text mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">How it works</h1>
           <p className="mt-4 text-base text-muted-foreground">
             Helix is a lightweight, production-grade pipeline that turns raw customer messages into resolved tickets — or into a clean hand-off to a human when it isn't confident enough.
           </p>
