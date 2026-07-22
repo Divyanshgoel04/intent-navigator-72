@@ -1,8 +1,7 @@
-export const API_BASE_URL = 'https://rumble-unmanaged-timid.ngrok-free.dev';
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 export const apiHeaders = {
-  'Content-Type': 'application/json',
-  'ngrok-skip-browser-warning': 'true'
+  'Content-Type': 'application/json'
 };
 
 export async function analyzeTicket(text: string, customerId?: string, orderId?: string) {
