@@ -33,3 +33,11 @@ export async function fetchOrder(orderId: string) {
   if (!response.ok) throw new Error('Order not found');
   return response.json();
 }
+
+export async function fetchRecentTickets() {
+  const response = await fetch(`${API_BASE_URL}/tickets/recent`, {
+    headers: apiHeaders
+  });
+  if (!response.ok) throw new Error('Failed to fetch tickets');
+  return response.json();
+}
